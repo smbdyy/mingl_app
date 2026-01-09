@@ -3,8 +3,12 @@ import 'package:http/http.dart' as http;
 
 class ApiClient {
   final String baseUrl;
+  final http.Client _httpClient;
 
-  ApiClient({required this.baseUrl});
+  ApiClient({
+    required this.baseUrl,
+    http.Client? httpClient,
+  }) : _httpClient = httpClient ?? http.Client();
 
   Future<Map<String, dynamic>> post(
     String path,
@@ -16,7 +20,7 @@ class ApiClient {
       'Content-Type': 'application/json',
     };
 
-    final response = await http.post(
+    final response = await _httpClient.post(
       uri,
       headers: headers,
       body: jsonEncode(body),
