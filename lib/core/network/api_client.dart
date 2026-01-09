@@ -7,8 +7,8 @@ class ApiClient {
 
   ApiClient({
     required this.baseUrl,
-    http.Client? httpClient,
-  }) : _httpClient = httpClient ?? http.Client();
+    required http.Client httpClient,
+  }) : _httpClient = httpClient;
 
   Future<Map<String, dynamic>> post(
     String path,

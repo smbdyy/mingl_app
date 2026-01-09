@@ -9,8 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  google_sign_in: ^6.2.1
+  google_sign_in: ^7.2.0
   http: ^1.1.0
+  get_it: ^9.2.0
+  flutter_dotenv: ^6.0.0
 
 dev_dependencies:
   flutter_test:
