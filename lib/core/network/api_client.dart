@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class ApiClient {
@@ -7,7 +8,7 @@ class ApiClient {
 
   ApiClient({
     required this.baseUrl,
-    required http.Client httpClient,
+    required httpClient,
   }) : _httpClient = httpClient;
 
   Future<Map<String, dynamic>> post(
@@ -30,19 +31,6 @@ class ApiClient {
       return jsonDecode(response.body) as Map<String, dynamic>;
     }
 
-    throw ApiException(
-      statusCode: response.statusCode,
-      message: response.body,
-    );
+    throw HttpException('API exception(${response.statusCode}): ${response.body}');
   }
-}
-
-class ApiException implements Exception {
-  final int statusCode;
-  final String message;
-
-  ApiException({required this.statusCode, required this.message});
-
-  @override
-  String toString() => 'ApiException($statusCode): $message';
 }
