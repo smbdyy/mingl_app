@@ -11,10 +11,10 @@ Future<void> setupDi() async {
 
   getIt.registerLazySingleton<http.Client>(() => http.Client());
 
-  getIt.registerLazySingleton<ApiClient>(() => ApiClient(
-        baseUrl: apiBaseUrl,
-        httpClient: getIt<http.Client>(),
-      ));
-
-  
+  getIt.registerLazySingleton<ApiClient>(
+    () => ApiClient(
+      baseUrl: apiBaseUrl,
+      httpClient: getIt<http.Client>(),
+    )
+  );
 }
