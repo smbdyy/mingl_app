@@ -1,4 +1,4 @@
-package com.example.mingl_app
+package ru.mingl.app
 
 import io.flutter.embedding.android.FlutterActivity
 

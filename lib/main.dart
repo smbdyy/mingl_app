@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mingl_app/core/services/auth_service.dart';
+import 'package:mingl_app/di/setup_di.dart';
+import 'package:mingl_app/features/auth/presentation/login_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: ".env");
+  await setupDi();
+
   runApp(const MainApp());
 }
 
@@ -9,12 +18,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      home: LoginScreen(authService: getIt<AuthService>())
     );
   }
 }
