@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mingl_app/core/auth/auth_service.dart';
 import 'package:mingl_app/core/config/app_config.dart';
 import 'package:mingl_app/core/models/account.dart';
-import 'package:mingl_app/core/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   final AuthService authService;
@@ -124,4 +124,4 @@ class _LoginScreenState extends State<LoginScreen> {
         const Text('GoogleSignIn unsupported')
     ];
   }
-} 
+} // todo dispose
