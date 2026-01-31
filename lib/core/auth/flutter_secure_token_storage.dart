@@ -16,12 +16,12 @@ class FlutterSecureTokenStorage implements TokenStorage {
   }
 
   @override
-  Future<String?> getAccessToken() {
+  Future<String?> tryGetAccessToken() {
     return _secureStorage.read(key: _TokenKeys.access);
   }
 
   @override
-  Future<String?> getRefreshToken() {
+  Future<String?> tryGetRefreshToken() {
     return _secureStorage.read(key: _TokenKeys.refresh);
   }
 
