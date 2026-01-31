@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class ApiClient {
@@ -11,7 +10,7 @@ class ApiClient {
     required httpClient,
   }) : _httpClient = httpClient;
 
-  Future<Map<String, dynamic>> post(
+  Future<http.Response> post(
     String path,
     Map<String, dynamic> body
   ) async {
@@ -21,16 +20,10 @@ class ApiClient {
       'Content-Type': 'application/json',
     };
 
-    final response = await _httpClient.post(
+    return await _httpClient.post(
       uri,
       headers: headers,
       body: jsonEncode(body),
     );
-
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body) as Map<String, dynamic>;
-    }
-
-    throw HttpException('API exception(${response.statusCode}): ${response.body}');
   }
 }
