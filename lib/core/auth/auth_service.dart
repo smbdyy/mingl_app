@@ -1,12 +1,17 @@
 import 'dart:convert';
 
+import 'package:mingl_app/core/auth/token_storage.dart';
 import 'package:mingl_app/core/models/account.dart';
 import 'package:mingl_app/core/network/api_client.dart';
 
 class AuthService {
   final ApiClient _apiClient;
+  final TokenStorage _tokenStorage;
 
-  AuthService(this._apiClient);
+  AuthService({
+    required ApiClient apiClient,
+    required TokenStorage tokenStorage
+  }) : _apiClient = apiClient, _tokenStorage = tokenStorage;
 
   Future<Account> loginWithGoogle(String idToken) async {
     final response = await _apiClient.post(
@@ -17,7 +22,19 @@ class AuthService {
     );
 
     final dto = _LoginResponseDto.fromJson(jsonDecode(response.body));
+
+    await _tokenStorage.save(accessToken: dto.accessToken, refreshToken: dto.refreshToken);
+    return dto.account.toDomainModel();
   }
+}
+
+class AuthFailedException implements Exception {
+  final int statusCode;
+
+  AuthFailedException(this.statusCode);
+
+  @override
+  String toString() => 'Auth failed, status code: $statusCode';
 }
 
 class _AccountDto {
@@ -33,6 +50,13 @@ class _AccountDto {
     return _AccountDto(
       id: json['id'] as int,
       email: json['email'] as String,
+    );
+  }
+
+  Account toDomainModel() {
+    return Account(
+      id: id,
+      email: email
     );
   }
 }
