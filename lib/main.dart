@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mingl_app/core/services/auth_service.dart';
+import 'package:mingl_app/core/auth/auth_service.dart';
 import 'package:mingl_app/di/setup_di.dart';
 import 'package:mingl_app/features/auth/presentation/login_screen.dart';
 
