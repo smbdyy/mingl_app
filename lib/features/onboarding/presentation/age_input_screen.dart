@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mingl_app/features/onboarding/models/user_profile_input.dart';
 
 class AgeInputScreen extends StatefulWidget {
-  final UserProfileInput profile;
+  final UserProfileInput profileInput;
 
-  const AgeInputScreen({super.key, required this.profile});
+  const AgeInputScreen({super.key, required this.profileInput});
 
   @override
   State<AgeInputScreen> createState() => _AgeInputScreenState();
@@ -20,7 +20,7 @@ class _AgeInputScreenState extends State<AgeInputScreen> {
       throw UnimplementedError();
     }
 
-    widget.profile.age = value;
+    widget.profileInput.age = value;
 
     // next screen
   }

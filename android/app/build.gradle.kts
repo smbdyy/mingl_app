@@ -8,7 +8,6 @@ plugins {
 android {
     namespace = "ru.mingl.app"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mingl_app/core/auth/token_storage.dart';
 import 'package:mingl_app/core/models/account.dart';
 import 'package:mingl_app/core/network/api_client.dart';
+import 'package:mingl_app/core/network/api_exception.dart';
 
 class AuthService {
   final ApiClient _apiClient;
@@ -12,7 +14,7 @@ class AuthService {
   Account? _currentAccount;
   Account? get currentAccount => _currentAccount;
 
-  bool get isLoggenIn => _currentAccount != null;
+  bool get isLoggedIn => _currentAccount != null;
 
   AuthService({
     required ApiClient apiClient,
@@ -47,7 +49,27 @@ class AuthService {
     return DateTime.now().toUtc().isAfter(expiry);
   }
 
-  Future<void> tryRefresh() async {
+  Future<void>? _refreshInFlight;
+
+  Future<void> tryRefresh() {
+    if (_refreshInFlight != null) {
+      return _refreshInFlight!;
+    }
+
+    final completer = Completer<void>();
+    _refreshInFlight = completer.future;
+
+    _executeRefresh().then(
+      completer.complete,
+      onError: completer.completeError
+    ).whenComplete(() {
+      _refreshInFlight = null;
+    });
+
+    return _refreshInFlight!;
+  }
+
+  Future<void> _executeRefresh() async {
     final refreshToken = await _tokenStorage.tryGetRefreshToken();
 
     if (refreshToken == null) {
@@ -61,6 +83,14 @@ class AuthService {
       }
     );
 
+    if (response.statusCode == 401) {
+      throw UnauthorizedException();
+    }
+
+    if (response.statusCode != 200) {
+      throw ApiException(response.statusCode);
+    }
+
     final dto = _RefreshTokenResponseDto.fromJson(jsonDecode(response.body));
 
     await _tokenStorage.save(accessToken: dto.accessToken, refreshToken: dto.refreshToken);
@@ -72,7 +102,7 @@ class AuthService {
     _currentAccount = accountDto.toDomainModel();
   }
 
-  Future<Account> loginWithGoogle(String idToken) async {
+  Future<Account> loginWithGoogle(String idToken) async { // todo is account needed?
     final response = await _apiClient.post(
       '/auth/google-id-token',
       {
@@ -85,6 +115,10 @@ class AuthService {
     await _tokenStorage.save(accessToken: dto.accessToken, refreshToken: dto.refreshToken);
     return dto.account.toDomainModel();
   }
+}
+
+class UnauthorizedException extends ApiException {
+  UnauthorizedException([String? message]) : super(401, message);
 }
 
 class _AccountDto {

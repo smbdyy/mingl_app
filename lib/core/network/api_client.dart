@@ -7,7 +7,7 @@ class ApiClient {
 
   ApiClient({
     required this.baseUrl,
-    required httpClient,
+    required http.Client httpClient
   }) : _httpClient = httpClient;
 
   Future<http.Response> post(
@@ -25,5 +25,14 @@ class ApiClient {
       headers: headers,
       body: jsonEncode(body),
     );
+  }
+
+  Future<http.Response> get(
+    String path, {
+    Map<String, String> additionalHeaders = const {}
+  }) async {
+    final uri = Uri.parse("$baseUrl$path");
+
+    return await _httpClient.get(uri, headers: additionalHeaders);
   }
 }
