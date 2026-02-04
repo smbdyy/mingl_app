@@ -7,3 +7,7 @@ class ApiException implements Exception {
   @override
   String toString() => 'ApiException($statusCode): $message';
 }
+
+class UnauthorizedException extends ApiException {
+  UnauthorizedException([String? message]) : super(401, message);
+}

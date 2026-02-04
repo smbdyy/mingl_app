@@ -2,6 +2,7 @@ import 'package:mingl_app/core/auth/auth_service.dart';
 import 'package:mingl_app/core/auth/token_storage.dart';
 import 'package:mingl_app/core/network/api_client.dart';
 import 'package:http/http.dart' as http;
+import 'package:mingl_app/core/network/api_exception.dart';
 
 class AuthenticatedApiClient {
   final ApiClient _apiClient;
@@ -26,6 +27,10 @@ class AuthenticatedApiClient {
       headers['Authorization'] = await _getAuthHeaderValue();
 
       response = await _apiClient.get(path, additionalHeaders: headers);
+    }
+
+    if (response.statusCode == 401) {
+      throw UnauthorizedException();
     }
 
     return response;

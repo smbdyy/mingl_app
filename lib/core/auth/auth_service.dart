@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mingl_app/core/auth/token_storage.dart';
-import 'package:mingl_app/core/models/account.dart';
+import 'package:mingl_app/core/account/account.dart';
 import 'package:mingl_app/core/network/api_client.dart';
 import 'package:mingl_app/core/network/api_exception.dart';
 
@@ -21,7 +21,7 @@ class AuthService {
     required TokenStorage tokenStorage
   }) : _apiClient = apiClient, _tokenStorage = tokenStorage;
 
-  Future<void> tryLoadFromStorage() async {
+  Future<void> tryLoadFromStorageOrRefresh() async {
     final accessToken = await _tokenStorage.tryGetAccessToken();
     final refreshToken = await _tokenStorage.tryGetRefreshToken();
 
@@ -115,10 +115,6 @@ class AuthService {
     await _tokenStorage.save(accessToken: dto.accessToken, refreshToken: dto.refreshToken);
     return dto.account.toDomainModel();
   }
-}
-
-class UnauthorizedException extends ApiException {
-  UnauthorizedException([String? message]) : super(401, message);
 }
 
 class _AccountDto {

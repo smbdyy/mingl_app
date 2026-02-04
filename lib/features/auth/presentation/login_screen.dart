@@ -1,16 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mingl_app/core/auth/auth_service.dart';
 import 'package:mingl_app/core/config/app_config.dart';
-import 'package:mingl_app/core/models/account.dart';
+import 'package:mingl_app/core/account/account.dart';
+import 'package:mingl_app/di/setup_di.dart';
 
 class LoginScreen extends StatefulWidget {
   final AuthService authService;
+  final Future<void> Function(BuildContext context) redirectAfterLogin;
 
-  const LoginScreen({super.key, required this.authService});
+  const LoginScreen({
+    super.key,
+    required this.authService,
+    required this.redirectAfterLogin});
 
   @override
   State createState() => _LoginScreenState();
@@ -28,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _initializeGoogleSignIn() {
     final signIn = GoogleSignIn.instance;
-    final appConfig = GetIt.instance<AppConfig>();
+    final appConfig = getIt<AppConfig>();
     unawaited(
       signIn.initialize(serverClientId: appConfig.googleServerClientId).then((
         _,
@@ -51,6 +55,8 @@ class _LoginScreenState extends State<LoginScreen> {
           GoogleSignInAuthenticationEventSignOut() => null,
         };
 
+    if (!mounted) return;
+
     if (user == null) {
       setState(() {
         _account = null;
@@ -67,12 +73,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final account = await widget.authService.loginWithGoogle(idToken);
 
+    if (!mounted) return;
+
     setState(() {
       _account = account;
     });
+
+    await widget.redirectAfterLogin(context);
   }
 
   Future<void> _handleGoogleAuthenticationError(Object e) async  {
+    if (!mounted) return;
+
     setState(() {
       _account = null;
     });
