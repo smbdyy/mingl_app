@@ -24,6 +24,7 @@ class _BootstrapScreenState extends State<BootstrapScreen> {
     _authService = getIt<AuthService>();
     _accountService = getIt<AccountService>();
 
+    // todo exception handling
     _bootstrap();
   }
 
@@ -32,6 +33,8 @@ class _BootstrapScreenState extends State<BootstrapScreen> {
 
     if (!mounted) return;
 
+    print(_authService.isLoggedIn);
+
     if (!_authService.isLoggedIn) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => LoginScreen(
@@ -39,8 +42,9 @@ class _BootstrapScreenState extends State<BootstrapScreen> {
           redirectAfterLogin: _redirectAfterLogin))
       );
     }
-
-    await _redirectAfterLogin(context);
+    else {
+      await _redirectAfterLogin(context);
+    }
   }
 
   Future<void> _redirectAfterLogin(BuildContext context) async {

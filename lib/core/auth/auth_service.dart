@@ -77,7 +77,7 @@ class AuthService {
     }
 
     final response = await _apiClient.post(
-      '/auth/refersh-token',
+      '/auth/refresh-token',
       {
         'refreshToken': refreshToken
       }
@@ -137,7 +137,7 @@ class _AccountDto {
     final decoded = JwtDecoder.decode(jwt);
     
     return _AccountDto(
-      id: decoded['sub'] as int,
+      id: int.parse(decoded['sub'] as String),
       email: decoded['email'] as String
     );
   }
