@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:mingl_app/features/onboarding/models/user_profile_input.dart';
+import 'package:mingl_app/features/onboarding/models/onboarding_input.dart';
 import 'package:mingl_app/features/onboarding/models/activity_level.dart';
+import 'package:mingl_app/features/onboarding/presentation/weight_input_screen.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_scaffold.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/activity_level_card.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/next_button.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_spacing.dart';
 
 class ActivityLevelInputScreen extends StatefulWidget {
-  final OnboardingInput profileInput;
+  final OnboardingInput onboardingInput;
 
-  const ActivityLevelInputScreen({super.key, required this.profileInput});
+  const ActivityLevelInputScreen({super.key, required this.onboardingInput});
 
   @override
   State<ActivityLevelInputScreen> createState() => _ActivityLevelInputScreenState();
@@ -21,7 +22,7 @@ class _ActivityLevelInputScreenState extends State<ActivityLevelInputScreen> {
   @override
   void initState() {
     super.initState();
-    _selectedLevel = widget.profileInput.activityLevel;
+    _selectedLevel = widget.onboardingInput.activityLevel;
   }
 
   void _onNext() {
@@ -29,8 +30,12 @@ class _ActivityLevelInputScreenState extends State<ActivityLevelInputScreen> {
       throw UnimplementedError();
     }
 
-    widget.profileInput.activityLevel = _selectedLevel;
-    // next screen
+    widget.onboardingInput.activityLevel = _selectedLevel;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => WeightInputScreen(onboardingInput: widget.onboardingInput),
+      ),
+    );
   }
 
   @override

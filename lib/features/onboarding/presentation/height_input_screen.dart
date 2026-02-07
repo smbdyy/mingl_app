@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:mingl_app/features/onboarding/models/user_profile_input.dart';
+import 'package:mingl_app/features/onboarding/models/onboarding_input.dart';
+import 'package:mingl_app/features/onboarding/presentation/activity_level_input_screen.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_scaffold.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/numeric_input_field.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/next_button.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_spacing.dart';
 
 class HeightInputScreen extends StatefulWidget {
-  final OnboardingInput profileInput;
+  final OnboardingInput onboardingInput;
 
-  const HeightInputScreen({super.key, required this.profileInput});
+  const HeightInputScreen({super.key, required this.onboardingInput});
 
   @override
   State<HeightInputScreen> createState() => _HeightInputScreenState();
@@ -24,8 +25,12 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
       throw UnimplementedError();
     }
 
-    widget.profileInput.heightCm = value;
-    // next screen
+    widget.onboardingInput.heightCm = value;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ActivityLevelInputScreen(onboardingInput: widget.onboardingInput),
+      ),
+    );
   }
 
   @override

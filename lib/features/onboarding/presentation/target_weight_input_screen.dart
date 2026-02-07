@@ -1,15 +1,16 @@
 
 import 'package:flutter/material.dart';
-import 'package:mingl_app/features/onboarding/models/user_profile_input.dart';
+import 'package:mingl_app/features/onboarding/models/onboarding_input.dart';
+import 'package:mingl_app/features/onboarding/presentation/food_exceptions_input_screen.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_scaffold.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/numeric_input_field.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/next_button.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_spacing.dart';
 
 class TargetWeightInputScreen extends StatefulWidget {
-  final OnboardingInput profileInput;
+  final OnboardingInput onboardingInput;
 
-  const TargetWeightInputScreen({super.key, required this.profileInput});
+  const TargetWeightInputScreen({super.key, required this.onboardingInput});
 
   @override
   State<TargetWeightInputScreen> createState() => _TargetWeightInputScreenState();
@@ -25,8 +26,12 @@ class _TargetWeightInputScreenState extends State<TargetWeightInputScreen> {
       throw UnimplementedError();
     }
 
-    widget.profileInput.targetWeightKg = value;
-    // next screen
+    widget.onboardingInput.targetWeightKg = value;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => FoodExceptionsInputScreen(onboardingInput: widget.onboardingInput),
+      ),
+    );
   }
 
   @override

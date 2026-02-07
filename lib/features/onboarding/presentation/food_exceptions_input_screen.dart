@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:mingl_app/features/onboarding/models/user_profile_input.dart';
+import 'package:mingl_app/features/onboarding/models/onboarding_input.dart';
+import 'package:mingl_app/features/onboarding/presentation/food_preferences_input_screen.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_scaffold.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/large_text_input_field.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/next_button.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_spacing.dart';
 
 class FoodExceptionsInputScreen extends StatefulWidget {
-  final OnboardingInput profileInput;
+  final OnboardingInput onboardingInput;
 
-  const FoodExceptionsInputScreen({super.key, required this.profileInput});
+  const FoodExceptionsInputScreen({super.key, required this.onboardingInput});
 
   @override
   State<FoodExceptionsInputScreen> createState() => _FoodExceptionsInputScreenState();
@@ -21,16 +22,20 @@ class _FoodExceptionsInputScreenState extends State<FoodExceptionsInputScreen> {
   void initState() {
     super.initState();
     _controller = TextEditingController(
-      text: widget.profileInput.foodExceptions ?? '',
+      text: widget.onboardingInput.foodExceptions ?? '',
     );
   }
 
   void _onNext() {
-    widget.profileInput.foodExceptions = _controller.text.isEmpty
+    widget.onboardingInput.foodExceptions = _controller.text.isEmpty
       ? null
       : _controller.text;
 
-    // next screen
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => FoodPreferencesInputScreen(onboardingInput: widget.onboardingInput),
+      ),
+    );
   }
 
   @override

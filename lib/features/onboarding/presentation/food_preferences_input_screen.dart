@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mingl_app/features/onboarding/models/user_profile_input.dart';
+import 'package:mingl_app/features/onboarding/models/onboarding_input.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_scaffold.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/large_text_input_field.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/next_button.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_spacing.dart';
 
 class FoodPreferencesInputScreen extends StatefulWidget {
-  final OnboardingInput profileInput;
+  final OnboardingInput onboardingInput;
 
-  const FoodPreferencesInputScreen({super.key, required this.profileInput});
+  const FoodPreferencesInputScreen({super.key, required this.onboardingInput});
 
   @override
   State<FoodPreferencesInputScreen> createState() => _FoodPreferencesInputScreenState();
@@ -21,16 +21,17 @@ class _FoodPreferencesInputScreenState extends State<FoodPreferencesInputScreen>
   void initState() {
     super.initState();
     _controller = TextEditingController(
-      text: widget.profileInput.foodPreferences ?? '',
+      text: widget.onboardingInput.foodPreferences ?? '',
     );
   }
 
   void _onNext() {
-    widget.profileInput.foodPreferences = _controller.text.isEmpty
+    widget.onboardingInput.foodPreferences = _controller.text.isEmpty
       ? null
       : _controller.text;
 
-    // next screen
+    // todo send data
+    Navigator.of(context).pop();
   }
 
   @override
