@@ -1,7 +1,7 @@
 import 'package:mingl_app/features/onboarding/models/activity_level.dart';
 import 'package:mingl_app/features/onboarding/models/sex.dart';
 
-class UserProfileInput {
+class OnboardingInput {
   int? age;
   double? weightKg;
   double? targetWeightKg;

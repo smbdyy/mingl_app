@@ -6,7 +6,7 @@ import 'package:mingl_app/features/onboarding/presentation/widgets/large_selecti
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_spacing.dart';
 
 class SexInputScreen extends StatefulWidget {
-  final UserProfileInput profileInput;
+  final OnboardingInput profileInput;
 
   const SexInputScreen({super.key, required this.profileInput});
 

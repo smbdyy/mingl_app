@@ -6,7 +6,7 @@ import 'package:mingl_app/features/onboarding/presentation/widgets/next_button.d
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_spacing.dart';
 
 class AgeInputScreen extends StatefulWidget {
-  final UserProfileInput profileInput;
+  final OnboardingInput profileInput;
 
   const AgeInputScreen({super.key, required this.profileInput});
 
