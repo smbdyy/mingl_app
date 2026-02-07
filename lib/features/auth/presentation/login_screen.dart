@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mingl_app/core/auth/auth_service.dart';
 import 'package:mingl_app/core/config/app_config.dart';
-import 'package:mingl_app/core/account/account.dart';
 import 'package:mingl_app/di/setup_di.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -21,8 +20,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  Account? _account;
-
   @override
   void initState() {
     super.initState();
@@ -55,13 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
           GoogleSignInAuthenticationEventSignOut() => null,
         };
 
-    if (!mounted) return;
-
     if (user == null) {
-      setState(() {
-        _account = null;
-      });
-
       return;
     }
 
@@ -71,23 +62,14 @@ class _LoginScreenState extends State<LoginScreen> {
       throw UnimplementedError('idToken is null'); // todo how is it possible?
     }
 
-    final account = await widget.authService.loginWithGoogle(idToken);
+    await widget.authService.loginWithGoogle(idToken);
 
     if (!mounted) return;
-
-    setState(() {
-      _account = account;
-    });
 
     await widget.redirectAfterLogin(context);
   }
 
   Future<void> _handleGoogleAuthenticationError(Object e) async  {
-    if (!mounted) return;
-
-    setState(() {
-      _account = null;
-    });
     // todo message
   }
 
@@ -106,23 +88,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
-        if (_account != null)
-          ..._buildAuthenticatedWidgets(_account!)
-        else
           ..._buildUnathenticatedWidgets()
       ],
     );
-  }
-
-  List<Widget> _buildAuthenticatedWidgets(Account account) {
-    return <Widget>[
-      Text('Signed in: ${account.id}'),
-    
-      ElevatedButton(
-        onPressed: () async { await GoogleSignIn.instance.signOut(); },
-        child: const Text('Sign out')
-      )
-    ];
   }
 
   List<Widget> _buildUnathenticatedWidgets() {
