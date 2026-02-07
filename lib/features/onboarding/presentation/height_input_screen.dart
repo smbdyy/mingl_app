@@ -5,16 +5,16 @@ import 'package:mingl_app/features/onboarding/presentation/widgets/numeric_input
 import 'package:mingl_app/features/onboarding/presentation/widgets/next_button.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_spacing.dart';
 
-class AgeInputScreen extends StatefulWidget {
+class HeightInputScreen extends StatefulWidget {
   final UserProfileInput profileInput;
 
-  const AgeInputScreen({super.key, required this.profileInput});
+  const HeightInputScreen({super.key, required this.profileInput});
 
   @override
-  State<AgeInputScreen> createState() => _AgeInputScreenState();
+  State<HeightInputScreen> createState() => _HeightInputScreenState();
 }
 
-class _AgeInputScreenState extends State<AgeInputScreen> {
+class _HeightInputScreenState extends State<HeightInputScreen> {
   final _controller = TextEditingController();
 
   void _onNext() {
@@ -24,7 +24,7 @@ class _AgeInputScreenState extends State<AgeInputScreen> {
       throw UnimplementedError();
     }
 
-    widget.profileInput.age = value;
+    widget.profileInput.heightCm = value;
     // next screen
   }
 
@@ -37,12 +37,12 @@ class _AgeInputScreenState extends State<AgeInputScreen> {
   @override
   Widget build(BuildContext context) {
     return OnboardingScaffold(
-      title: 'Возраст',
+      title: 'Рост',
       body: Column(
         children: [
           NumericInputField(
             controller: _controller,
-            labelText: 'Возраст',
+            labelText: 'Рост (см)',
           ),
           const OnboardingSpacing(),
           NextButton(onPressed: _onNext),
