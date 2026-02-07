@@ -28,7 +28,7 @@ class _HeightInputScreenState extends State<HeightInputScreen> {
     widget.onboardingInput.heightCm = value;
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => ActivityLevelInputScreen(onboardingInput: widget.onboardingInput),
+        builder: (_) => ActivityLevelInputScreen(onboardingInput: widget.onboardingInput),
       ),
     );
   }

@@ -28,7 +28,7 @@ class _AgeInputScreenState extends State<AgeInputScreen> {
     widget.onboardingInput.age = value;
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => SexInputScreen(onboardingInput: widget.onboardingInput),
+        builder: (_) => SexInputScreen(onboardingInput: widget.onboardingInput),
       ),
     );
   }

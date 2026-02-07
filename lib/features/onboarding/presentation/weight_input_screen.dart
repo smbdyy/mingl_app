@@ -28,7 +28,7 @@ class _WeightInputScreenState extends State<WeightInputScreen> {
     widget.onboardingInput.weightKg = value;
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => TargetWeightInputScreen(onboardingInput: widget.onboardingInput),
+        builder: (_) => TargetWeightInputScreen(onboardingInput: widget.onboardingInput),
       ),
     );
   }

@@ -33,7 +33,7 @@ class _FoodExceptionsInputScreenState extends State<FoodExceptionsInputScreen> {
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => FoodPreferencesInputScreen(onboardingInput: widget.onboardingInput),
+        builder: (_) => FoodPreferencesInputScreen(onboardingInput: widget.onboardingInput),
       ),
     );
   }

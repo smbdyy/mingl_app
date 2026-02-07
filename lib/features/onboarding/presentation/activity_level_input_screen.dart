@@ -33,7 +33,7 @@ class _ActivityLevelInputScreenState extends State<ActivityLevelInputScreen> {
     widget.onboardingInput.activityLevel = _selectedLevel;
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => WeightInputScreen(onboardingInput: widget.onboardingInput),
+        builder: (_) => WeightInputScreen(onboardingInput: widget.onboardingInput),
       ),
     );
   }

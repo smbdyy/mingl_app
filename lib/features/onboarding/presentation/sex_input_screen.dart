@@ -15,7 +15,7 @@ class SexInputScreen extends StatelessWidget {
     onboardingInput.sex = sex;
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => HeightInputScreen(onboardingInput: onboardingInput),
+        builder: (_) => HeightInputScreen(onboardingInput: onboardingInput),
       ),
     );
   }
