@@ -37,8 +37,6 @@ class _LoginScreenState extends State<LoginScreen> {
         signIn.authenticationEvents
           .listen(_handleGoogleSignInAuthenticationEvent)
           .onError(_handleGoogleAuthenticationError);
-
-          // todo lightweight auth?
       }),
     );
   }

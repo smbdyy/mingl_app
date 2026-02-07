@@ -6,21 +6,16 @@ import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_sc
 import 'package:mingl_app/features/onboarding/presentation/widgets/large_selection_button.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_spacing.dart';
 
-class SexInputScreen extends StatefulWidget {
+class SexInputScreen extends StatelessWidget {
   final OnboardingInput onboardingInput;
 
   const SexInputScreen({super.key, required this.onboardingInput});
 
-  @override
-  State<SexInputScreen> createState() => _SexInputScreenState();
-}
-
-class _SexInputScreenState extends State<SexInputScreen> {
-  void _onSelectSex(Sex sex) {
-    widget.onboardingInput.sex = sex;
+  void _onSelectSex(BuildContext context, Sex sex) {
+    onboardingInput.sex = sex;
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => HeightInputScreen(onboardingInput: widget.onboardingInput),
+        builder: (context) => HeightInputScreen(onboardingInput: onboardingInput),
       ),
     );
   }
@@ -32,12 +27,12 @@ class _SexInputScreenState extends State<SexInputScreen> {
       body: Column(
         children: [
           LargeSelectionButton(
-            onPressed: () => _onSelectSex(Sex.male),
+            onPressed: () => _onSelectSex(context, Sex.male),
             label: 'Мужской',
           ),
           const OnboardingSpacing.small(),
           LargeSelectionButton(
-            onPressed: () => _onSelectSex(Sex.female),
+            onPressed: () => _onSelectSex(context, Sex.female),
             label: 'Женский',
           ),
         ],
@@ -45,3 +40,5 @@ class _SexInputScreenState extends State<SexInputScreen> {
     );
   }
 }
+
+
