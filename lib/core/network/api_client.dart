@@ -12,12 +12,14 @@ class ApiClient {
 
   Future<http.Response> post(
     String path,
-    Map<String, dynamic> body
-  ) async {
+    Map<String, dynamic> body, {
+    Map<String, String> additionalHeaders = const {}
+  }) async {
     final uri = Uri.parse('$baseUrl$path');
 
     final headers = {
       'Content-Type': 'application/json',
+      ...additionalHeaders
     };
 
     return await _httpClient.post(
@@ -29,10 +31,10 @@ class ApiClient {
 
   Future<http.Response> get(
     String path, {
-    Map<String, String> additionalHeaders = const {}
+    Map<String, String> headers = const {}
   }) async {
     final uri = Uri.parse("$baseUrl$path");
 
-    return await _httpClient.get(uri, headers: additionalHeaders);
+    return await _httpClient.get(uri, headers: headers);
   }
 }

@@ -20,13 +20,34 @@ class AuthenticatedApiClient {
       'Authorization': await _getAuthHeaderValue()
     };
 
-    var response = await _apiClient.get(path, additionalHeaders: headers);
+    var response = await _apiClient.get(path, headers: headers);
 
     if (response.statusCode == 401) {
       await _authService.tryRefresh();
       headers['Authorization'] = await _getAuthHeaderValue();
 
-      response = await _apiClient.get(path, additionalHeaders: headers);
+      response = await _apiClient.get(path, headers: headers);
+    }
+
+    if (response.statusCode == 401) {
+      throw UnauthorizedException();
+    }
+
+    return response;
+  }
+
+  Future<http.Response> post(String path, Map<String, dynamic> body) async {
+    var headers = {
+      'Authorization': await _getAuthHeaderValue(),
+    };
+
+    var response = await _apiClient.post(path, body, additionalHeaders: headers);
+
+    if (response.statusCode == 401) {
+      await _authService.tryRefresh();
+      headers['Authorization'] = await _getAuthHeaderValue();
+
+      response = await _apiClient.post(path, body, additionalHeaders: headers);
     }
 
     if (response.statusCode == 401) {
