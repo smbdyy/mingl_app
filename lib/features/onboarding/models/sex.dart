@@ -1,4 +1,8 @@
 enum Sex {
-  male,
-  female
+  male('Male'),
+  female('Female');
+
+  final String serverValue;
+
+  const Sex(this.serverValue);
 }
