@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:mingl_app/core/macrosCalculation/macros.dart';
+import 'package:mingl_app/core/macros/macros.dart';
 import 'package:mingl_app/core/network/api_exception.dart';
 import 'package:mingl_app/core/network/authenticated_api_client.dart';
 

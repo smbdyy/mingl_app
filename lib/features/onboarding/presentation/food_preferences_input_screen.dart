@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mingl_app/features/onboarding/models/onboarding_input.dart';
+import 'package:mingl_app/features/onboarding/presentation/onboarding_submit_screen.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_scaffold.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/large_text_input_field.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/next_button.dart';
@@ -30,8 +31,12 @@ class _FoodPreferencesInputScreenState extends State<FoodPreferencesInputScreen>
       ? null
       : _controller.text;
 
-    // todo send data
-    Navigator.of(context).pop();
+    
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => OnboardingSubmitScreen(onboardingInput: widget.onboardingInput),
+      ),
+    );
   }
 
   @override

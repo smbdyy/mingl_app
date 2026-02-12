@@ -33,8 +33,6 @@ class _BootstrapScreenState extends State<BootstrapScreen> {
 
     if (!mounted) return;
 
-    print(_authService.isLoggedIn);
-
     if (!_authService.isLoggedIn) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => LoginScreen(

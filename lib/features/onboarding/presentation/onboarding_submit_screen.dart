@@ -1,6 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:mingl_app/core/macros/macros.dart';
+import 'package:mingl_app/features/bootstrap/loading_screen.dart';
 import 'package:mingl_app/features/onboarding/models/onboarding_input.dart';
 import 'package:mingl_app/features/onboarding/presentation/onboarding_finish_screen.dart';
 import 'package:mingl_app/core/account/account_service.dart';
@@ -16,92 +15,80 @@ class OnboardingSubmitScreen extends StatefulWidget {
 }
 
 class _OnboardingSubmitScreenState extends State<OnboardingSubmitScreen> {
-  late Future<Macros> _submitFuture;
+  bool _isLoading = true;
+  bool _hasError = false;
 
   @override
   void initState() {
     super.initState();
-    _submitFuture = _submitNutritionProfile();
+    _submitNutritionProfile();
   }
 
-  Future<Macros> _submitNutritionProfile() async {
+  Future<void> _submitNutritionProfile() async {
+    setState(() {
+      _isLoading = true;
+      _hasError = false;
+    });
+
     final accountService = getIt<AccountService>();
 
-    return await accountService.setNutritionProfile(
-      age: widget.onboardingInput.age!,
-      weightKg: widget.onboardingInput.weightKg!,
-      targetWeightKg: widget.onboardingInput.targetWeightKg!,
-      heightCm: widget.onboardingInput.heightCm!,
-      sex: widget.onboardingInput.sex!.serverValue,
-      activityLevel: widget.onboardingInput.activityLevel!.serverValue,
-      foodExceptions: widget.onboardingInput.foodExceptions,
-      foodPreferences: widget.onboardingInput.foodPreferences,
-    );
+    try {
+      final macros = await accountService.setNutritionProfile(
+        age: widget.onboardingInput.age!,
+        weightKg: widget.onboardingInput.weightKg!,
+        targetWeightKg: widget.onboardingInput.targetWeightKg!,
+        heightCm: widget.onboardingInput.heightCm!,
+        sex: widget.onboardingInput.sex!.serverValue,
+        activityLevel: widget.onboardingInput.activityLevel!.serverValue,
+        foodExceptions: widget.onboardingInput.foodExceptions,
+        foodPreferences: widget.onboardingInput.foodPreferences,
+      );
+
+      if (!mounted) return;
+
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) =>
+              OnboardingFinishScreen(recommendedDailyMacros: macros),
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _hasError = true;
+        _isLoading = false;
+      });
+
+      print("ERROR HERE");
+      rethrow;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder<Macros>(
-        future: _submitFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+    if (_isLoading) return const LoadingScreen();
 
-          if (snapshot.hasError) {
-            return _buildErrorWidget(context, snapshot.error.toString());
-          }
-
-          if (snapshot.hasData) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (_) => OnboardingFinishScreen(recommendedDailyMacros: snapshot.data!),
-                ),
-              );
-            });
-
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildErrorWidget(BuildContext context, String error) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.error_outline, size: 48, color: Colors.red),
-          const SizedBox(height: 16),
-          const Text(
-            'Ошибка при загрузке профиля',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    if (_hasError) {
+      return Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Произошла ошибка при отправке данных.',
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _submitNutritionProfile,
+                child: const Text('Попробовать заново'),
+              ),
+            ],
           ),
-          const SizedBox(height: 8),
-          Text(
-            error,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 14, color: Colors.grey),
-          ),
-          const SizedBox(height: 24),
-          ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Вернуться назад'),
-          ),
-        ],
-      ),
-    );
+        ),
+      );
+    }
+
+    return const SizedBox.shrink();
   }
 }
