@@ -6,28 +6,28 @@ import 'package:mingl_app/features/onboarding/presentation/widgets/large_text_in
 import 'package:mingl_app/features/onboarding/presentation/widgets/next_button.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_spacing.dart';
 
-class FoodPreferencesInputScreen extends StatefulWidget {
+class CommonPreferencesInputScreen extends StatefulWidget {
   final OnboardingInput onboardingInput;
 
-  const FoodPreferencesInputScreen({super.key, required this.onboardingInput});
+  const CommonPreferencesInputScreen({super.key, required this.onboardingInput});
 
   @override
-  State<FoodPreferencesInputScreen> createState() => _FoodPreferencesInputScreenState();
+  State<CommonPreferencesInputScreen> createState() => _CommonPreferencesInputScreenState();
 }
 
-class _FoodPreferencesInputScreenState extends State<FoodPreferencesInputScreen> {
+class _CommonPreferencesInputScreenState extends State<CommonPreferencesInputScreen> {
   late TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(
-      text: widget.onboardingInput.foodPreferences ?? '',
+      text: widget.onboardingInput.commonPreferences ?? '',
     );
   }
 
   void _onNext() {
-    widget.onboardingInput.foodPreferences = _controller.text.isEmpty
+    widget.onboardingInput.commonPreferences = _controller.text.isEmpty
       ? null
       : _controller.text;
 
@@ -48,14 +48,14 @@ class _FoodPreferencesInputScreenState extends State<FoodPreferencesInputScreen>
   @override
   Widget build(BuildContext context) {
     return OnboardingScaffold(
-      title: 'Пожелания к блюдам',
+      title: 'Пожелания',
       body: SingleChildScrollView(
         child: Column(
           children: [
             LargeTextInputField(
               controller: _controller,
               labelText: 'Какие есть пожелания?',
-              hintText: 'Например: больше овощей, вегетарианские блюда, острая еда...',
+              hintText: 'Например: больше овощей, острая еда, можно приготовить без духовки...',
             ),
             const OnboardingSpacing(),
             NextButton(onPressed: _onNext),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mingl_app/features/onboarding/models/onboarding_input.dart';
-import 'package:mingl_app/features/onboarding/presentation/food_preferences_input_screen.dart';
+import 'package:mingl_app/features/onboarding/presentation/common_preferences_input_screen.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/onboarding_scaffold.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/large_text_input_field.dart';
 import 'package:mingl_app/features/onboarding/presentation/widgets/next_button.dart';
@@ -33,7 +33,7 @@ class _FoodExceptionsInputScreenState extends State<FoodExceptionsInputScreen> {
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => FoodPreferencesInputScreen(onboardingInput: widget.onboardingInput),
+        builder: (_) => CommonPreferencesInputScreen(onboardingInput: widget.onboardingInput),
       ),
     );
   }

@@ -41,7 +41,7 @@ class _OnboardingSubmitScreenState extends State<OnboardingSubmitScreen> {
         sex: widget.onboardingInput.sex!.serverValue,
         activityLevel: widget.onboardingInput.activityLevel!.serverValue,
         foodExceptions: widget.onboardingInput.foodExceptions,
-        foodPreferences: widget.onboardingInput.foodPreferences,
+        commonPreferences: widget.onboardingInput.commonPreferences,
       );
 
       if (!mounted) return;

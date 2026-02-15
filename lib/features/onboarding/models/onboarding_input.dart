@@ -9,5 +9,5 @@ class OnboardingInput {
   Sex? sex;
   ActivityLevel? activityLevel;
   String? foodExceptions;
-  String? foodPreferences;
+  String? commonPreferences;
 }

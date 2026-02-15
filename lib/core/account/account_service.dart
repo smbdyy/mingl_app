@@ -27,7 +27,7 @@ class AccountService {
     required String sex,
     required String activityLevel,
     String? foodExceptions,
-    String? foodPreferences,
+    String? commonPreferences,
   }) async {
     final requestBody = {
       'age': age,
@@ -37,7 +37,7 @@ class AccountService {
       'sex': sex,
       'activityLevel': activityLevel,
       'foodExceptions': foodExceptions,
-      'foodPreferences': foodPreferences,
+      'commonPreferences': commonPreferences,
     };
 
     final response = await _apiClient.post('/account/nutrition-profile/set', requestBody);
